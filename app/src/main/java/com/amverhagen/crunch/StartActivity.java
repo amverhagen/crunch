@@ -9,15 +9,19 @@ import android.view.View;
 
 import com.amverhagen.options.Options;
 import com.amverhagen.problem.Equation;
+import com.amverhagen.problem.EquationWrapper;
 
 import java.util.ArrayList;
 
 public class StartActivity extends AppCompatActivity {
     Options options;
     ArrayList<Equation> problemList;
+    EquationWrapper wrapper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        options = new Options();
+        problemList = new ArrayList<Equation>();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
     }
@@ -46,7 +50,14 @@ public class StartActivity extends AppCompatActivity {
 
 
     public void startCrunch(View view) {
+        problemList.clear();
+        for (int i = 0; i < 10; i++) {
+            Equation temp = new Equation(this.options);
+            problemList.add(temp);
+        }
+        wrapper = new EquationWrapper(problemList);
         Intent intent = new Intent(this, CrunchActivity.class);
+        intent.putExtra("equations", wrapper);
         startActivity(intent);
     }
 

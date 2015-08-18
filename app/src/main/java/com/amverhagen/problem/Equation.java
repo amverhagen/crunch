@@ -2,12 +2,14 @@ package com.amverhagen.problem;
 
 import com.amverhagen.options.Options;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Andrew on 8/15/2015.
  */
-public class Equation {
+public class Equation implements Serializable {
+    private static final long serialVersionUID = 1L;
     private Options options;
     private EquationType type;
     private int argOne;
@@ -65,6 +67,18 @@ public class Equation {
         return wrongAnswers;
     }
 
+    public String getEquationSyntax() {
+        String syntax = argOne + " " + type.getOperation() + " " + argTwo;
+        return syntax;
+    }
+
+    public String getCorrectAnswer() {
+        return Double.toString(correctAnswer);
+    }
+
+    public String getIncorrectAnswer(int index) {
+        return Double.toString(incorrectAnswers[index]);
+    }
 
     public String toString() {
         return new String("Arg1 is: " + argOne + ". Arg2 is: " + argTwo + ". Type is: " + type + " Answer is: " + correctAnswer

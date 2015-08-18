@@ -2,12 +2,14 @@ package com.amverhagen.options;
 
 import com.amverhagen.problem.EquationType;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Andrew on 8/15/2015.
  */
-public class Options {
+public class Options implements Serializable {
+    private static final long serialVersionUID = 1L;
     private boolean addition;
     private boolean subtraction;
     private boolean multiplication;
@@ -15,9 +17,9 @@ public class Options {
 
     public Options() {
         addition = true;
-        subtraction = false;
-        multiplication = false;
-        division = false;
+        subtraction = true;
+        multiplication = true;
+        division = true;
     }
 
     public void toggleAdd() {
