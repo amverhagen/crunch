@@ -1,9 +1,11 @@
 package com.amverhagen.crunch;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.amverhagen.problem.Equation;
@@ -15,10 +17,10 @@ public class CrunchActivity extends AppCompatActivity {
     private ArrayList<Equation> equations;
     private EquationWrapper wrapper;
     private TextView equationPanel;
-    private TextView topLeftPanel;
-    private TextView topRightPanel;
-    private TextView botLeftPanel;
-    private TextView botRightPanel;
+    private Panel topLeftPanel;
+    private Panel topRightPanel;
+    private Panel botLeftPanel;
+    private Panel botRightPanel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,14 +28,13 @@ public class CrunchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_crunch);
         wrapper = (EquationWrapper) getIntent().getSerializableExtra("equations");
         equations = wrapper.getEquations();
-        System.out.println("Hello, World" + " " + equations.size());
         Equation e = equations.remove(0);
         System.out.println(e.toString());
         equationPanel = (TextView) findViewById(R.id.equationPanel);
-        topLeftPanel = (TextView) findViewById(R.id.topLeftPanel);
-        topRightPanel = (TextView) findViewById(R.id.topRightPanel);
-        botLeftPanel = (TextView) findViewById(R.id.botLeftPanel);
-        botRightPanel = (TextView) findViewById(R.id.botRightPanel);
+        topLeftPanel = new Panel((TextView) findViewById(R.id.topLeftPanel));
+        topRightPanel = new Panel((TextView) findViewById(R.id.topRightPanel));
+        botLeftPanel = new Panel((TextView) findViewById(R.id.botLeftPanel));
+        botRightPanel = new Panel((TextView) findViewById(R.id.botRightPanel));
         this.loadTextViewsWithEquation(e);
     }
 
@@ -57,6 +58,15 @@ public class CrunchActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void touchTopLeft(View view) {
+        if (equations.size() > 0) {
+            loadTextViewsWithEquation(equations.remove(0));
+        } else {
+            finish();
+        }
+        System.out.println("touched topleft from activity");
     }
 
     private void loadTextViewsWithEquation(Equation e) {
