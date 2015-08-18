@@ -6,29 +6,20 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
+
+import com.amverhagen.options.Options;
+import com.amverhagen.problem.Equation;
 
 import java.util.ArrayList;
 
 public class StartActivity extends AppCompatActivity {
-    private int leftValue;
-    private int rightValue;
-    private TextView leftTextView;
-    private TextView rightTextView;
-    private TextView warningTextView;
+    Options options;
+    ArrayList<Equation> problemList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-        leftTextView = (TextView) findViewById(R.id.leftTextView);
-        rightTextView = (TextView) findViewById(R.id.rightTextView);
-        warningTextView = (TextView) findViewById(R.id.warningTextView);
-        leftValue = 1;
-        rightValue = 50;
-        setRangeValues();
     }
 
     @Override
@@ -53,53 +44,14 @@ public class StartActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void setRangeValues() {
-        leftTextView.setText(Integer.toString(leftValue));
-        rightTextView.setText(Integer.toString(rightValue));
-    }
 
     public void startCrunch(View view) {
-        if (testRange()) {
-            Intent intent = new Intent(this, CrunchActivity.class);
-            startActivity(intent);
-        }
+        Intent intent = new Intent(this, CrunchActivity.class);
+        startActivity(intent);
     }
 
-    public void incrementLeft(View view) {
-        if (leftValue < 99) {
-            leftValue++;
-            setRangeValues();
-        }
+    public void options(View view) {
+
     }
 
-    public void decrementLeft(View view) {
-        if (leftValue > 1) {
-            leftValue--;
-            setRangeValues();
-        }
-    }
-
-    public void incrementRight(View view) {
-        if (rightValue < 99) {
-            rightValue++;
-            setRangeValues();
-        }
-    }
-
-    public void decrementRight(View view) {
-        if (rightValue > 1) {
-            rightValue--;
-            setRangeValues();
-        }
-    }
-
-    private boolean testRange() {
-        if (Math.abs(leftValue - rightValue) < 10) {
-            warningTextView.setText("Difference between values must be greater than 10.");
-            return false;
-        } else {
-            warningTextView.setText("");
-            return true;
-        }
-    }
 }
