@@ -1,6 +1,6 @@
 package com.amverhagen.crunch;
 
-import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -17,10 +17,9 @@ public class CrunchActivity extends AppCompatActivity {
     private ArrayList<Equation> equations;
     private EquationWrapper wrapper;
     private TextView equationPanel;
-    private Panel topLeftPanel;
-    private Panel topRightPanel;
-    private Panel botLeftPanel;
-    private Panel botRightPanel;
+    private Panel[] panels;
+    private TextView[] checkBoxes;
+    private int currentBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,14 +27,10 @@ public class CrunchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_crunch);
         wrapper = (EquationWrapper) getIntent().getSerializableExtra("equations");
         equations = wrapper.getEquations();
-        Equation e = equations.remove(0);
-        System.out.println(e.toString());
         equationPanel = (TextView) findViewById(R.id.equationPanel);
-        topLeftPanel = new Panel((TextView) findViewById(R.id.topLeftPanel));
-        topRightPanel = new Panel((TextView) findViewById(R.id.topRightPanel));
-        botLeftPanel = new Panel((TextView) findViewById(R.id.botLeftPanel));
-        botRightPanel = new Panel((TextView) findViewById(R.id.botRightPanel));
-        this.loadTextViewsWithEquation(e);
+        this.initBoxes();
+        this.initPanels();
+        this.loadNextEquation();
     }
 
     @Override
@@ -60,20 +55,72 @@ public class CrunchActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void touchTopLeft(View view) {
+    private void initBoxes() {
+        currentBox = 0;
+        checkBoxes = new TextView[10];
+        checkBoxes[0] = (TextView) findViewById(R.id.cb0);
+        checkBoxes[1] = (TextView) findViewById(R.id.cb1);
+        checkBoxes[2] = (TextView) findViewById(R.id.cb2);
+        checkBoxes[3] = (TextView) findViewById(R.id.cb3);
+        checkBoxes[4] = (TextView) findViewById(R.id.cb4);
+        checkBoxes[5] = (TextView) findViewById(R.id.cb5);
+        checkBoxes[6] = (TextView) findViewById(R.id.cb6);
+        checkBoxes[7] = (TextView) findViewById(R.id.cb7);
+        checkBoxes[8] = (TextView) findViewById(R.id.cb8);
+        checkBoxes[9] = (TextView) findViewById(R.id.cb9);
+    }
+
+    private void initPanels() {
+        panels = new Panel[4];
+        panels[0] = new Panel((TextView) findViewById(R.id.topLeftPanel));
+        panels[1] = new Panel((TextView) findViewById(R.id.topRightPanel));
+        panels[2] = new Panel((TextView) findViewById(R.id.botLeftPanel));
+        panels[3] = new Panel((TextView) findViewById(R.id.botRightPanel));
+    }
+
+    private void loadNextEquation() {
         if (equations.size() > 0) {
             loadTextViewsWithEquation(equations.remove(0));
         } else {
             finish();
         }
-        System.out.println("touched topleft from activity");
     }
 
     private void loadTextViewsWithEquation(Equation e) {
         equationPanel.setText(e.getEquationSyntax());
-        topLeftPanel.setText(e.getCorrectAnswer());
-        topRightPanel.setText(e.getIncorrectAnswer(0));
-        botLeftPanel.setText(e.getIncorrectAnswer(1));
-        botRightPanel.setText(e.getIncorrectAnswer(2));
+
+        int correct = (int) Math.floor(Math.random() * 4);
+        for (int i = 0; i < panels.length; i++) {
+            if (i != correct) {
+                panels[i].setText(e.getIncorrectAnswer());
+                panels[i].setFalse();
+            } else {
+                panels[i].setText(e.getCorrectAnswer());
+                panels[i].setCorrect();
+            }
+        }
+    }
+
+    public void panelTouched(View view) {
+        for (int i = 0; i < panels.length; i++) {
+            if (panels[i].getTextView() == view) {
+                checkPanel(panels[i]);
+            }
+        }
+    }
+
+    private void checkPanel(Panel p) {
+        markBox(p.getCorrectness());
+        loadNextEquation();
+    }
+
+    private void markBox(Boolean correctness) {
+        if (currentBox > checkBoxes.length - 1) currentBox = checkBoxes.length - 1;
+        if (correctness) {
+            checkBoxes[currentBox].setBackgroundColor(Color.GREEN);
+        } else {
+            checkBoxes[currentBox].setBackgroundColor(Color.RED);
+        }
+        currentBox++;
     }
 }

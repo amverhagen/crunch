@@ -1,6 +1,5 @@
 package com.amverhagen.crunch;
 
-import android.view.View;
 import android.widget.TextView;
 
 /**
@@ -31,7 +30,7 @@ public class Panel {
         return correct;
     }
 
-    public void touchTopLeft(View view) {
-        System.out.println("touched topleft from panel");
+    public TextView getTextView() {
+        return this.panel;
     }
 }

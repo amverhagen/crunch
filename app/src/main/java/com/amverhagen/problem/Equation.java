@@ -16,6 +16,7 @@ public class Equation implements Serializable {
     private int argTwo;
     private double correctAnswer;
     private double[] incorrectAnswers;
+    private int currentIncorrectIndex;
 
     public Equation(Options ops) {
         if (ops == null) this.options = new Options();
@@ -24,6 +25,7 @@ public class Equation implements Serializable {
         this.setArgs(this.type);
         this.correctAnswer = this.generateCorrectAnswer(this.type, this.argOne, this.argTwo);
         this.incorrectAnswers = this.generateIncorrectAnswers(this.type, this.correctAnswer);
+        this.currentIncorrectIndex = 0;
     }
 
     private EquationType setType(Options ops) {
@@ -76,8 +78,15 @@ public class Equation implements Serializable {
         return Double.toString(correctAnswer);
     }
 
-    public String getIncorrectAnswer(int index) {
-        return Double.toString(incorrectAnswers[index]);
+    public String getIncorrectAnswer() {
+        String value;
+        if (currentIncorrectIndex >= incorrectAnswers.length) {
+            value = Double.toString(incorrectAnswers[incorrectAnswers.length - 1]);
+        } else {
+            value = Double.toString(incorrectAnswers[currentIncorrectIndex]);
+            currentIncorrectIndex++;
+        }
+        return value;
     }
 
     public String toString() {
