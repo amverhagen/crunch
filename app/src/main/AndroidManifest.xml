@@ -19,6 +19,7 @@
         </activity>
 
         <activity
+            android:theme="@style/Theme.AppCompat.NoActionBar"
             android:name=".CrunchActivity"
             android:label="@string/title_activity_crunch"
             android:screenOrientation="portrait"></activity>
