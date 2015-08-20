@@ -1,6 +1,42 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:weightSum="3">
+
+    <CheckBox
+        android:id="@+id/checkbox_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:checked="true"
+        android:enabled="false"
+        android:text="@string/addition" />
+
+    <CheckBox
+        android:id="@+id/checkbox_sub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:onClick="subChecked"
+        android:text="@string/subtraction" />
+
+    <CheckBox
+        android:id="@+id/checkbox_mult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:onClick="multChecked"
+        android:text="@string/multiplication" />
+
+    <CheckBox
+        android:id="@+id/checkbox_div"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:onClick="divChecked"
+        android:text="@string/division" />
 
 
-</RelativeLayout>
+</LinearLayout>

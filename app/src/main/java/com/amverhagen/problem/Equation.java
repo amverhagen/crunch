@@ -10,7 +10,6 @@ import java.util.ArrayList;
  */
 public class Equation implements Serializable {
     private static final long serialVersionUID = 1L;
-    private Options options;
     private EquationType type;
     private int argOne;
     private int argTwo;
@@ -18,18 +17,16 @@ public class Equation implements Serializable {
     private double[] incorrectAnswers;
     private int currentIncorrectIndex;
 
-    public Equation(Options ops) {
-        if (ops == null) this.options = new Options();
-        else this.options = ops;
-        this.type = setType(this.options);
+    public Equation() {
+        this.type = setType();
         this.setArgs(this.type);
         this.correctAnswer = this.generateCorrectAnswer(this.type, this.argOne, this.argTwo);
         this.incorrectAnswers = this.generateIncorrectAnswers(this.type, this.correctAnswer);
         this.currentIncorrectIndex = 0;
     }
 
-    private EquationType setType(Options ops) {
-        ArrayList<EquationType> types = ops.getEquationTypeList();
+    private EquationType setType() {
+        ArrayList<EquationType> types = Options.getEquationTypeList();
         int selection = (int) (Math.random() * types.size());
         return types.remove(selection);
     }

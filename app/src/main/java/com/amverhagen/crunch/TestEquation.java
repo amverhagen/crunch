@@ -17,7 +17,7 @@ public class TestEquation {
         options.toggleDiv();
         Equation[] equations = new Equation[10];
         for (int i = 0; i < equations.length; i++) {
-            equations[i] = new Equation(options);
+            equations[i] = new Equation();
             System.out.println(equations[i].toString());
         }
     }

@@ -8,47 +8,46 @@ import java.util.ArrayList;
 /**
  * Created by Andrew on 8/15/2015.
  */
-public class Options implements Serializable {
-    private static final long serialVersionUID = 1L;
-    private boolean addition;
-    private boolean subtraction;
-    private boolean multiplication;
-    private boolean division;
+public class Options {
+    private static boolean subtraction = false;
+    private static boolean multiplication = false;
+    private static boolean division = false;
 
-    public Options() {
-        addition = true;
-        subtraction = true;
-        multiplication = true;
-        division = true;
-    }
 
-    public void toggleAdd() {
-        addition = !addition;
-    }
-
-    public void toggleSub() {
+    public static void toggleSub() {
         subtraction = !subtraction;
     }
 
-    public void toggleMult() {
+    public static void toggleMult() {
         multiplication = !multiplication;
     }
 
-    public void toggleDiv() {
+    public static void toggleDiv() {
         division = !division;
     }
 
-    public ArrayList<EquationType> getEquationTypeList() {
+    public static boolean getSubSetting() {
+        return subtraction;
+    }
+
+    public static boolean getMultSetting() {
+        return multiplication;
+    }
+
+    public static boolean getDivSetting() {
+        return division;
+    }
+
+    public static ArrayList<EquationType> getEquationTypeList() {
         ArrayList<EquationType> types = new ArrayList<EquationType>();
-        if (addition) types.add(EquationType.ADDITION);
+        types.add(EquationType.ADDITION);
         if (subtraction) types.add(EquationType.SUBTRACTION);
         if (multiplication) types.add(EquationType.MULTIPLICATION);
         if (division) types.add(EquationType.DIVISION);
-        if (types.size() == 0) types.add(EquationType.ADDITION);
         return types;
     }
 
     public String toString() {
-        return new String("Addition is " + addition + ". Sub is: " + subtraction + ". Mult is: " + multiplication + ". Div is: " + division);
+        return new String("Sub is: " + subtraction + ". Mult is: " + multiplication + ". Div is: " + division);
     }
 }
