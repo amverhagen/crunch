@@ -12,8 +12,14 @@ import com.amverhagen.problem.Equation;
 import com.amverhagen.problem.EquationWrapper;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class CrunchActivity extends AppCompatActivity {
+    private int currentTime;
+    private Timer secondsTimer;
+    private TimerTask secondPassedTask;
+    private TextView timerView;
     private ArrayList<Equation> equations;
     private EquationWrapper wrapper;
     private TextView equationPanel;
@@ -27,7 +33,6 @@ public class CrunchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_crunch);
         wrapper = (EquationWrapper) getIntent().getSerializableExtra("equations");
         equations = wrapper.getEquations();
-        equationPanel = (TextView) findViewById(R.id.equationPanel);
         this.initBoxes();
         this.initPanels();
         this.loadNextEquation();
@@ -46,9 +51,30 @@ public class CrunchActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setTimerTask() {
+        secondPassedTask = new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        decrementSecond();
+                    }
+                });
+            }
+        };
+    }
+
+    private void decrementSecond() {
+        currentTime--;
+        timerView.setText(currentTime + "");
+        if (currentTime == 0) {
+            setAnswer(false);
+        }
+
     }
 
     private void initBoxes() {
@@ -67,6 +93,8 @@ public class CrunchActivity extends AppCompatActivity {
     }
 
     private void initPanels() {
+        equationPanel = (TextView) findViewById(R.id.equationPanel);
+        timerView = (TextView) findViewById(R.id.timerView);
         panels = new Panel[4];
         panels[0] = new Panel((TextView) findViewById(R.id.topLeftPanel));
         panels[1] = new Panel((TextView) findViewById(R.id.topRightPanel));
@@ -76,14 +104,29 @@ public class CrunchActivity extends AppCompatActivity {
 
     private void loadNextEquation() {
         if (equations.size() > 0) {
+            currentTime = 5;
             loadTextViewsWithEquation(equations.remove(0));
+            resetTimer();
         } else {
             finish();
         }
     }
 
+    private void resetTimer() {
+        if (secondsTimer != null) {
+            secondsTimer.cancel();
+        }
+        if (secondPassedTask != null) {
+            secondPassedTask.cancel();
+        }
+        setTimerTask();
+        secondsTimer = new Timer();
+        secondsTimer.scheduleAtFixedRate(secondPassedTask, 1000, 1000);
+    }
+
     private void loadTextViewsWithEquation(Equation e) {
         equationPanel.setText(e.getEquationSyntax());
+        timerView.setText(currentTime + "");
 
         int correct = (int) Math.floor(Math.random() * 4);
         for (int i = 0; i < panels.length; i++) {
@@ -100,13 +143,13 @@ public class CrunchActivity extends AppCompatActivity {
     public void panelTouched(View view) {
         for (int i = 0; i < panels.length; i++) {
             if (panels[i].getTextView() == view) {
-                checkPanel(panels[i]);
+                setAnswer(panels[i].getCorrectness());
             }
         }
     }
 
-    private void checkPanel(Panel p) {
-        markBox(p.getCorrectness());
+    private void setAnswer(boolean correctness) {
+        markBox(correctness);
         loadNextEquation();
     }
 
