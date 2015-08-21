@@ -5,24 +5,25 @@
     android:weightSum="10">
 
     <TextView
+        android:id="@+id/timerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".5"
+        android:background="@color/dim_foreground_disabled_material_dark"
+        android:gravity="center"
+        android:textColor="@color/abc_input_method_navigation_guard" />
+
+    <TextView
         android:id="@+id/equationPanel"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="1.5"
         android:background="@color/white"
         android:gravity="center"
         android:text="@string/x"
         android:textColor="@color/black"
-        android:textSize="40sp" />
+        android:textSize="60sp" />
 
-    <TextView
-        android:id="@+id/timerView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@color/dim_foreground_disabled_material_dark"
-        android:gravity="center"
-        android:textColor="@color/abc_input_method_navigation_guard" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,20 +37,22 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/background_material_dark"
+            android:background="@drawable/border"
             android:gravity="center"
             android:onClick="panelTouched"
-            android:text="@string/x" />
+            android:text="@string/x"
+            android:textSize="30sp" />
 
         <TextView
             android:id="@+id/topRightPanel"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/accent_material_dark"
+            android:background="@drawable/border"
             android:gravity="center"
             android:onClick="panelTouched"
-            android:text="@string/x" />
+            android:text="@string/x"
+            android:textSize="30sp" />
 
     </LinearLayout>
 
@@ -65,20 +68,22 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/background_material_dark"
+            android:background="@drawable/border"
             android:gravity="center"
             android:onClick="panelTouched"
-            android:text="@string/x" />
+            android:text="@string/x"
+            android:textSize="30sp" />
 
         <TextView
             android:id="@+id/botRightPanel"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/accent_material_dark"
+            android:background="@drawable/border"
             android:gravity="center"
             android:onClick="panelTouched"
-            android:text="@string/x" />
+            android:text="@string/x"
+            android:textSize="30sp" />
 
     </LinearLayout>
 
@@ -86,7 +91,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/accent_material_light"
+        android:background="@drawable/border_thin"
         android:weightSum="10">
 
         <TextView
@@ -94,7 +99,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginBottom="10dp"
-            android:layout_marginLeft="3dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="3dp"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
@@ -194,7 +199,7 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="3dp"
-            android:layout_marginRight="3dp"
+            android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:background="@color/accent_material_dark" />
