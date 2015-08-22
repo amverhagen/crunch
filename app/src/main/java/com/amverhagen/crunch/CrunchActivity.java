@@ -60,6 +60,7 @@ public class CrunchActivity extends AppCompatActivity {
         secondPassedTask = new TimerTask() {
             @Override
             public void run() {
+                System.out.print("running " + this.toString());
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -71,9 +72,10 @@ public class CrunchActivity extends AppCompatActivity {
     }
 
     private void decrementSecond() {
+        System.out.println("Running");
         currentTime--;
         grayCurrentBox();
-        if (currentTime == 0) {
+        if (currentTime <= 0) {
             setAnswer(false);
         }
 
@@ -128,6 +130,7 @@ public class CrunchActivity extends AppCompatActivity {
             loadTextViewsWithEquation(equations.remove(0));
             resetTimer();
         } else {
+            endTimer();
             finish();
         }
     }
@@ -141,15 +144,19 @@ public class CrunchActivity extends AppCompatActivity {
     }
 
     private void resetTimer() {
+        endTimer();
+        setTimerTask();
+        secondsTimer = new Timer();
+        secondsTimer.scheduleAtFixedRate(secondPassedTask, 1000, 1000);
+    }
+
+    private void endTimer() {
         if (secondsTimer != null) {
             secondsTimer.cancel();
         }
         if (secondPassedTask != null) {
             secondPassedTask.cancel();
         }
-        setTimerTask();
-        secondsTimer = new Timer();
-        secondsTimer.scheduleAtFixedRate(secondPassedTask, 1000, 1000);
     }
 
     private void loadTextViewsWithEquation(Equation e) {
@@ -188,5 +195,12 @@ public class CrunchActivity extends AppCompatActivity {
             checkBoxes[currentBox].setBackgroundColor(Color.RED);
         }
         currentBox++;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        endTimer();
+        finish();
     }
 }
