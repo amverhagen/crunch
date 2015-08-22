@@ -4,14 +4,54 @@
     android:orientation="vertical"
     android:weightSum="10">
 
-    <TextView
-        android:id="@+id/timerView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight=".5"
-        android:background="@color/dim_foreground_disabled_material_dark"
-        android:gravity="center"
-        android:textColor="@color/abc_input_method_navigation_guard" />
+        android:weightSum="5">
+
+        <TextView
+            android:id="@+id/time5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="3dp"
+            android:layout_weight="1"
+            android:background="@color/green"></TextView>
+
+        <TextView
+            android:id="@+id/time4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="3dp"
+            android:layout_weight="1"
+            android:background="@color/green"></TextView>
+
+        <TextView
+            android:id="@+id/time3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="3dp"
+            android:layout_weight="1"
+            android:background="@color/yellow"></TextView>
+
+        <TextView
+            android:id="@+id/time2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="3dp"
+            android:layout_weight="1"
+            android:background="@color/yellow"></TextView>
+
+        <TextView
+            android:id="@+id/time1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="3dp"
+            android:layout_weight="1"
+            android:background="@color/red"></TextView>
+
+    </LinearLayout>
+
 
     <TextView
         android:id="@+id/equationPanel"

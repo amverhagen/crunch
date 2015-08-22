@@ -17,14 +17,15 @@ import java.util.TimerTask;
 
 public class CrunchActivity extends AppCompatActivity {
     private int currentTime;
+    private int currentTimeBox;
     private Timer secondsTimer;
     private TimerTask secondPassedTask;
-    private TextView timerView;
     private ArrayList<Equation> equations;
     private EquationWrapper wrapper;
     private TextView equationPanel;
     private Panel[] panels;
     private TextView[] checkBoxes;
+    private TextView[] timeBoxes;
     private int currentBox;
 
     @Override
@@ -33,6 +34,7 @@ public class CrunchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_crunch);
         wrapper = (EquationWrapper) getIntent().getSerializableExtra("equations");
         equations = wrapper.getEquations();
+        this.initTimeBoxes();
         this.initBoxes();
         this.initPanels();
         this.loadNextEquation();
@@ -70,12 +72,29 @@ public class CrunchActivity extends AppCompatActivity {
 
     private void decrementSecond() {
         currentTime--;
-        timerView.setText(currentTime + "");
+        grayCurrentBox();
         if (currentTime == 0) {
             setAnswer(false);
         }
 
     }
+
+    private void grayCurrentBox() {
+        if (currentTimeBox > timeBoxes.length - 1) currentTimeBox = timeBoxes.length - 1;
+        timeBoxes[currentTimeBox].setBackgroundColor(Color.GRAY);
+        currentTimeBox++;
+    }
+
+    private void initTimeBoxes() {
+        currentTimeBox = 0;
+        timeBoxes = new TextView[5];
+        timeBoxes[0] = (TextView) findViewById(R.id.time5);
+        timeBoxes[1] = (TextView) findViewById(R.id.time4);
+        timeBoxes[2] = (TextView) findViewById(R.id.time3);
+        timeBoxes[3] = (TextView) findViewById(R.id.time2);
+        timeBoxes[4] = (TextView) findViewById(R.id.time1);
+    }
+
 
     private void initBoxes() {
         currentBox = 0;
@@ -94,7 +113,6 @@ public class CrunchActivity extends AppCompatActivity {
 
     private void initPanels() {
         equationPanel = (TextView) findViewById(R.id.equationPanel);
-        timerView = (TextView) findViewById(R.id.timerView);
         panels = new Panel[4];
         panels[0] = new Panel((TextView) findViewById(R.id.topLeftPanel));
         panels[1] = new Panel((TextView) findViewById(R.id.topRightPanel));
@@ -105,11 +123,21 @@ public class CrunchActivity extends AppCompatActivity {
     private void loadNextEquation() {
         if (equations.size() > 0) {
             currentTime = 5;
+            currentTimeBox = 0;
+            colorTimeBoxes();
             loadTextViewsWithEquation(equations.remove(0));
             resetTimer();
         } else {
             finish();
         }
+    }
+
+    private void colorTimeBoxes() {
+        timeBoxes[0].setBackgroundColor(Color.GREEN);
+        timeBoxes[1].setBackgroundColor(Color.GREEN);
+        timeBoxes[2].setBackgroundColor(Color.YELLOW);
+        timeBoxes[3].setBackgroundColor(Color.YELLOW);
+        timeBoxes[4].setBackgroundColor(Color.RED);
     }
 
     private void resetTimer() {
@@ -126,7 +154,6 @@ public class CrunchActivity extends AppCompatActivity {
 
     private void loadTextViewsWithEquation(Equation e) {
         equationPanel.setText(e.getEquationSyntax());
-        timerView.setText(currentTime + "");
 
         int correct = (int) Math.floor(Math.random() * 4);
         for (int i = 0; i < panels.length; i++) {
