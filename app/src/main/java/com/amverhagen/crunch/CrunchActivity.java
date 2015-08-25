@@ -17,6 +17,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class CrunchActivity extends AppCompatActivity {
+    private boolean active;
     private String equationText;
     private int currentTime;
     private int currentTimeBox;
@@ -38,6 +39,7 @@ public class CrunchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_crunch);
         wrapper = (EquationWrapper) getIntent().getSerializableExtra("equations");
         equations = wrapper.getEquations();
+        active = false;
         this.initTimeBoxes();
         this.initScoreBoxes();
         this.initPanels();
@@ -145,6 +147,7 @@ public class CrunchActivity extends AppCompatActivity {
             colorTimeBoxes();
             loadTextViewsWithEquation(equations.remove(0));
             resetTimer();
+            active = true;
         } else {
             endTimer();
             finish();
@@ -194,12 +197,14 @@ public class CrunchActivity extends AppCompatActivity {
     }
 
     public void panelTouched(View view) {
-        for (int i = 0; i < panels.length; i++) {
-            if (panels[i].getTextView() == view) {
-                if (panels[i] == selectedPanel) {
-                    setAnswer(panels[i].getCorrectness());
-                } else {
-                    setSelectedPanel(panels[i]);
+        if (active) {
+            for (int i = 0; i < panels.length; i++) {
+                if (panels[i].getTextView() == view) {
+                    if (panels[i] == selectedPanel) {
+                        setAnswer(panels[i].getCorrectness());
+                    } else {
+                        setSelectedPanel(panels[i]);
+                    }
                 }
             }
         }
@@ -237,6 +242,7 @@ public class CrunchActivity extends AppCompatActivity {
 
     private void highlightAnswer(boolean correctness) {
         endTimer();
+        active = false;
         if (correctness) equationPanel.setBackgroundColor(Color.GREEN);
         else equationPanel.setBackgroundColor(Color.RED);
         secondsTimer = new Timer();
