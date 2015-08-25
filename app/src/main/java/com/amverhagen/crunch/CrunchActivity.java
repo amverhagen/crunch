@@ -17,6 +17,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class CrunchActivity extends AppCompatActivity {
+    private String equationText;
     private int currentTime;
     private int currentTimeBox;
     private Timer secondsTimer;
@@ -163,7 +164,8 @@ public class CrunchActivity extends AppCompatActivity {
     }
 
     private void loadTextViewsWithEquation(Equation e) {
-        equationPanel.setText(e.getEquationSyntax());
+        equationText = e.getEquationSyntax() + " = ";
+        equationPanel.setText(equationText);
 
         int correct = (int) Math.floor(Math.random() * 4);
         for (int i = 0; i < panels.length; i++) {
@@ -193,6 +195,7 @@ public class CrunchActivity extends AppCompatActivity {
         if (selectedPanel != null)
             selectedPanel.getTextView().setBackgroundResource(R.drawable.border);
         selectedPanel = selection;
+        equationPanel.setText(equationText + selectedPanel.getTextView().getText());
         selectedPanel.getTextView().setBackgroundResource(R.drawable.border_selected);
     }
 
