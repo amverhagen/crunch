@@ -22,6 +22,7 @@ public class CrunchActivity extends AppCompatActivity {
     private int currentTimeBox;
     private Timer secondsTimer;
     private TimerTask secondPassedTask;
+    private TimerTask displayAnswerTask;
     private ArrayList<Equation> equations;
     private EquationWrapper wrapper;
     private TextView equationPanel;
@@ -59,7 +60,7 @@ public class CrunchActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void setTimerTask() {
+    private void setTimerTasks() {
         secondPassedTask = new TimerTask() {
             @Override
             public void run() {
@@ -71,7 +72,19 @@ public class CrunchActivity extends AppCompatActivity {
                 });
             }
         };
+        displayAnswerTask = new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadNextEquation();
+                    }
+                });
+            }
+        };
     }
+
 
     private void decrementSecond() {
         currentTime--;
@@ -149,7 +162,7 @@ public class CrunchActivity extends AppCompatActivity {
 
     private void resetTimer() {
         endTimer();
-        setTimerTask();
+        setTimerTasks();
         secondsTimer = new Timer();
         secondsTimer.scheduleAtFixedRate(secondPassedTask, 1000, 1000);
     }
@@ -165,6 +178,7 @@ public class CrunchActivity extends AppCompatActivity {
 
     private void loadTextViewsWithEquation(Equation e) {
         equationText = e.getEquationSyntax() + " = ";
+        equationPanel.setBackgroundColor(Color.WHITE);
         equationPanel.setText(equationText);
 
         int correct = (int) Math.floor(Math.random() * 4);
@@ -208,7 +222,6 @@ public class CrunchActivity extends AppCompatActivity {
 
     private void setAnswer(boolean correctness) {
         markBox(correctness);
-        loadNextEquation();
     }
 
     private void markBox(Boolean correctness) {
@@ -218,7 +231,16 @@ public class CrunchActivity extends AppCompatActivity {
         } else {
             checkBoxes[currentScoreBox].setBackgroundColor(Color.RED);
         }
+        highlightAnswer(correctness);
         currentScoreBox++;
+    }
+
+    private void highlightAnswer(boolean correctness) {
+        endTimer();
+        if (correctness) equationPanel.setBackgroundColor(Color.GREEN);
+        else equationPanel.setBackgroundColor(Color.RED);
+        secondsTimer = new Timer();
+        secondsTimer.scheduleAtFixedRate(displayAnswerTask, 1000, 1000);
     }
 
     @Override
