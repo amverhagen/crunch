@@ -2,6 +2,7 @@ package com.amverhagen.crunch;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,9 +25,10 @@ public class CrunchActivity extends AppCompatActivity {
     private EquationWrapper wrapper;
     private TextView equationPanel;
     private Panel[] panels;
+    private Panel selectedPanel;
     private TextView[] checkBoxes;
     private TextView[] timeBoxes;
-    private int currentBox;
+    private int currentScoreBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +37,7 @@ public class CrunchActivity extends AppCompatActivity {
         wrapper = (EquationWrapper) getIntent().getSerializableExtra("equations");
         equations = wrapper.getEquations();
         this.initTimeBoxes();
-        this.initBoxes();
+        this.initScoreBoxes();
         this.initPanels();
         this.loadNextEquation();
     }
@@ -60,7 +62,6 @@ public class CrunchActivity extends AppCompatActivity {
         secondPassedTask = new TimerTask() {
             @Override
             public void run() {
-                System.out.print("running " + this.toString());
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -72,11 +73,11 @@ public class CrunchActivity extends AppCompatActivity {
     }
 
     private void decrementSecond() {
-        System.out.println("Running");
         currentTime--;
         grayCurrentBox();
         if (currentTime <= 0) {
-            setAnswer(false);
+            if (selectedPanel == null) setAnswer(false);
+            else setAnswer(selectedPanel.getCorrectness());
         }
 
     }
@@ -98,8 +99,8 @@ public class CrunchActivity extends AppCompatActivity {
     }
 
 
-    private void initBoxes() {
-        currentBox = 0;
+    private void initScoreBoxes() {
+        currentScoreBox = 0;
         checkBoxes = new TextView[10];
         checkBoxes[0] = (TextView) findViewById(R.id.cb0);
         checkBoxes[1] = (TextView) findViewById(R.id.cb1);
@@ -126,6 +127,7 @@ public class CrunchActivity extends AppCompatActivity {
         if (equations.size() > 0) {
             currentTime = 5;
             currentTimeBox = 0;
+            resetSelectedPanel();
             colorTimeBoxes();
             loadTextViewsWithEquation(equations.remove(0));
             resetTimer();
@@ -134,6 +136,7 @@ public class CrunchActivity extends AppCompatActivity {
             finish();
         }
     }
+
 
     private void colorTimeBoxes() {
         timeBoxes[0].setBackgroundColor(Color.GREEN);
@@ -177,8 +180,26 @@ public class CrunchActivity extends AppCompatActivity {
     public void panelTouched(View view) {
         for (int i = 0; i < panels.length; i++) {
             if (panels[i].getTextView() == view) {
-                setAnswer(panels[i].getCorrectness());
+                if (panels[i] == selectedPanel) {
+                    setAnswer(panels[i].getCorrectness());
+                } else {
+                    setSelectedPanel(panels[i]);
+                }
             }
+        }
+    }
+
+    public void setSelectedPanel(Panel selection) {
+        if (selectedPanel != null)
+            selectedPanel.getTextView().setBackgroundResource(R.drawable.border);
+        selectedPanel = selection;
+        selectedPanel.getTextView().setBackgroundResource(R.drawable.border_selected);
+    }
+
+    private void resetSelectedPanel() {
+        selectedPanel = null;
+        for (int i = 0; i < panels.length; i++) {
+            panels[i].getTextView().setBackgroundResource(R.drawable.border);
         }
     }
 
@@ -188,13 +209,13 @@ public class CrunchActivity extends AppCompatActivity {
     }
 
     private void markBox(Boolean correctness) {
-        if (currentBox > checkBoxes.length - 1) currentBox = checkBoxes.length - 1;
+        if (currentScoreBox > checkBoxes.length - 1) currentScoreBox = checkBoxes.length - 1;
         if (correctness) {
-            checkBoxes[currentBox].setBackgroundColor(Color.GREEN);
+            checkBoxes[currentScoreBox].setBackgroundColor(Color.GREEN);
         } else {
-            checkBoxes[currentBox].setBackgroundColor(Color.RED);
+            checkBoxes[currentScoreBox].setBackgroundColor(Color.RED);
         }
-        currentBox++;
+        currentScoreBox++;
     }
 
     @Override
