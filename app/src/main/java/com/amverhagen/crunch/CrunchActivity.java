@@ -1,6 +1,7 @@
 package com.amverhagen.crunch;
 
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class CrunchActivity extends AppCompatActivity {
+    private MediaPlayer correct;
+    private MediaPlayer wrong;
     private boolean active;
     private String equationText;
     private int currentTime;
@@ -40,6 +43,7 @@ public class CrunchActivity extends AppCompatActivity {
         wrapper = (EquationWrapper) getIntent().getSerializableExtra("equations");
         equations = wrapper.getEquations();
         active = false;
+        this.setSounds();
         this.initTimeBoxes();
         this.initScoreBoxes();
         this.initPanels();
@@ -60,6 +64,11 @@ public class CrunchActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setSounds() {
+        wrong = MediaPlayer.create(this, R.raw.wrong);
+        correct = MediaPlayer.create(this, R.raw.correct);
     }
 
     private void setTimerTasks() {
@@ -243,8 +252,13 @@ public class CrunchActivity extends AppCompatActivity {
     private void highlightAnswer(boolean correctness) {
         endTimer();
         active = false;
-        if (correctness) equationPanel.setBackgroundColor(Color.GREEN);
-        else equationPanel.setBackgroundColor(Color.RED);
+        if (correctness) {
+            correct.start();
+            equationPanel.setBackgroundColor(Color.GREEN);
+        } else {
+            wrong.start();
+            equationPanel.setBackgroundColor(Color.RED);
+        }
         secondsTimer = new Timer();
         secondsTimer.scheduleAtFixedRate(displayAnswerTask, 1000, 1000);
     }
