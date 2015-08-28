@@ -16,7 +16,7 @@
             android:layout_height="match_parent"
             android:layout_margin="3dp"
             android:layout_weight="1"
-            android:background="@color/green"></TextView>
+            android:background="@color/green"/>
 
         <TextView
             android:id="@+id/time4"
@@ -24,7 +24,7 @@
             android:layout_height="match_parent"
             android:layout_margin="3dp"
             android:layout_weight="1"
-            android:background="@color/green"></TextView>
+            android:background="@color/green"/>
 
         <TextView
             android:id="@+id/time3"
@@ -32,7 +32,7 @@
             android:layout_height="match_parent"
             android:layout_margin="3dp"
             android:layout_weight="1"
-            android:background="@color/yellow"></TextView>
+            android:background="@color/yellow"/>
 
         <TextView
             android:id="@+id/time2"
@@ -40,7 +40,7 @@
             android:layout_height="match_parent"
             android:layout_margin="3dp"
             android:layout_weight="1"
-            android:background="@color/yellow"></TextView>
+            android:background="@color/yellow"/>
 
         <TextView
             android:id="@+id/time1"
@@ -48,7 +48,7 @@
             android:layout_height="match_parent"
             android:layout_margin="3dp"
             android:layout_weight="1"
-            android:background="@color/red"></TextView>
+            android:background="@color/red"/>
 
     </LinearLayout>
 
@@ -60,7 +60,7 @@
         android:layout_margin="5dp"
         android:layout_weight="1.5"
         android:background="@color/white"
-        android:gravity="left|center_vertical"
+        android:gravity="start|center_vertical"
         android:singleLine="true"
         android:text="@string/x"
         android:textColor="@color/black"
@@ -141,8 +141,10 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="3dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:background="@color/accent_material_dark" />
@@ -240,8 +242,10 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginBottom="10dp"
+            android:layout_marginEnd="10dp"
             android:layout_marginLeft="3dp"
             android:layout_marginRight="10dp"
+            android:layout_marginStart="3dp"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:background="@color/accent_material_dark" />
