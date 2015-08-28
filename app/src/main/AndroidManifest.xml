@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.amverhagen.crunch">
+    package="com.amverhagen.crunch" >
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".StartActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,15 +21,20 @@
             android:name=".CrunchActivity"
             android:label="@string/title_activity_crunch"
             android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar">
-
+            android:theme="@style/NoActionBar" >
         </activity>
-
-
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".StartActivity">
+            android:parentActivityName=".StartActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.amverhagen.crunch.StartActivity" />
+        </activity>
+        <activity
+            android:name=".ScoreActivity"
+            android:label="@string/title_activity_score"
+            android:parentActivityName=".StartActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.amverhagen.crunch.StartActivity" />

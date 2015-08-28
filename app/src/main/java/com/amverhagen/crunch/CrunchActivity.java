@@ -1,5 +1,6 @@
 package com.amverhagen.crunch;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -159,6 +160,8 @@ public class CrunchActivity extends AppCompatActivity {
             active = true;
         } else {
             endTimer();
+            Intent intent = new Intent(this, ScoreActivity.class);
+            startActivity(intent);
             finish();
         }
     }
