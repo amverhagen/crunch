@@ -8,6 +8,9 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class ScoreActivity extends AppCompatActivity {
     private int corrects;
     private int secondsLeft;
@@ -16,6 +19,10 @@ public class ScoreActivity extends AppCompatActivity {
     private TextView timeLeftView;
     private TextView timeResultView;
     private TextView finalScoreView;
+    private Timer correctsTimer;
+    private Timer timeLeftTimer;
+    private TimerTask correctsTask;
+    private TimerTask timeLeftTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +35,8 @@ public class ScoreActivity extends AppCompatActivity {
         timeLeftView = (TextView) this.findViewById(R.id.timeLeftView);
         timeResultView = (TextView) this.findViewById(R.id.timeResultView);
         finalScoreView = (TextView) this.findViewById(R.id.finalScoreView);
+        fillCorrectBoxes();
+        fillTimeLeftView();
     }
 
     @Override
@@ -59,5 +68,47 @@ public class ScoreActivity extends AppCompatActivity {
         correctBoxes[7] = (TextView) this.findViewById(R.id.correctView7);
         correctBoxes[8] = (TextView) this.findViewById(R.id.correctView8);
         correctBoxes[9] = (TextView) this.findViewById(R.id.correctView9);
+    }
+
+    private void fillCorrectBoxes() {
+        resetCorrectsTimer();
+        setCorrectsTask();
+        correctsTimer.scheduleAtFixedRate(correctsTask, 0, 500);
+    }
+
+    private void resetCorrectsTimer() {
+        if (correctsTimer != null) correctsTimer.cancel();
+        correctsTimer = new Timer();
+    }
+
+    private void setCorrectsTask() {
+        if (correctsTask != null) correctsTask.cancel();
+        correctsTask = new TimerTask() {
+            @Override
+            public void run() {
+                this.cancel();
+            }
+        };
+    }
+
+    private void fillTimeLeftView() {
+        resetTimeLeftTimer();
+        setTimeLeftTask();
+        timeLeftTimer.scheduleAtFixedRate(timeLeftTask, 0, 500);
+    }
+
+    private void resetTimeLeftTimer() {
+        if (timeLeftTimer != null) timeLeftTimer.cancel();
+        timeLeftTimer = new Timer();
+    }
+
+    private void setTimeLeftTask() {
+        if (timeLeftTask != null) timeLeftTask.cancel();
+        timeLeftTask = new TimerTask() {
+            @Override
+            public void run() {
+                this.cancel();
+            }
+        };
     }
 }
