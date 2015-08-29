@@ -19,6 +19,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class CrunchActivity extends AppCompatActivity {
+    private int corrects;
+    private int secondsLeft;
     private MediaPlayer correct;
     private MediaPlayer wrong;
     private boolean active;
@@ -33,7 +35,7 @@ public class CrunchActivity extends AppCompatActivity {
     private TextView equationPanel;
     private Panel[] panels;
     private Panel selectedPanel;
-    private TextView[] checkBoxes;
+    private TextView[] scoreBoxes;
     private TextView[] timeBoxes;
     private int currentScoreBox;
 
@@ -47,6 +49,8 @@ public class CrunchActivity extends AppCompatActivity {
         this.setSounds();
         this.initTimeBoxes();
         this.initScoreBoxes();
+        secondsLeft = timeBoxes.length * scoreBoxes.length;
+        corrects = 0;
         this.initPanels();
         this.loadNextEquation();
     }
@@ -99,6 +103,7 @@ public class CrunchActivity extends AppCompatActivity {
 
 
     private void decrementSecond() {
+        secondsLeft--;
         currentTime--;
         grayCurrentBox();
         if (currentTime <= 0) {
@@ -127,17 +132,17 @@ public class CrunchActivity extends AppCompatActivity {
 
     private void initScoreBoxes() {
         currentScoreBox = 0;
-        checkBoxes = new TextView[10];
-        checkBoxes[0] = (TextView) findViewById(R.id.cb0);
-        checkBoxes[1] = (TextView) findViewById(R.id.cb1);
-        checkBoxes[2] = (TextView) findViewById(R.id.cb2);
-        checkBoxes[3] = (TextView) findViewById(R.id.cb3);
-        checkBoxes[4] = (TextView) findViewById(R.id.cb4);
-        checkBoxes[5] = (TextView) findViewById(R.id.cb5);
-        checkBoxes[6] = (TextView) findViewById(R.id.cb6);
-        checkBoxes[7] = (TextView) findViewById(R.id.cb7);
-        checkBoxes[8] = (TextView) findViewById(R.id.cb8);
-        checkBoxes[9] = (TextView) findViewById(R.id.cb9);
+        scoreBoxes = new TextView[10];
+        scoreBoxes[0] = (TextView) findViewById(R.id.cb0);
+        scoreBoxes[1] = (TextView) findViewById(R.id.cb1);
+        scoreBoxes[2] = (TextView) findViewById(R.id.cb2);
+        scoreBoxes[3] = (TextView) findViewById(R.id.cb3);
+        scoreBoxes[4] = (TextView) findViewById(R.id.cb4);
+        scoreBoxes[5] = (TextView) findViewById(R.id.cb5);
+        scoreBoxes[6] = (TextView) findViewById(R.id.cb6);
+        scoreBoxes[7] = (TextView) findViewById(R.id.cb7);
+        scoreBoxes[8] = (TextView) findViewById(R.id.cb8);
+        scoreBoxes[9] = (TextView) findViewById(R.id.cb9);
     }
 
     private void initPanels() {
@@ -161,6 +166,8 @@ public class CrunchActivity extends AppCompatActivity {
         } else {
             endTimer();
             Intent intent = new Intent(this, ScoreActivity.class);
+            intent.putExtra("corrects", corrects);
+            intent.putExtra("secondsLeft", secondsLeft);
             startActivity(intent);
             finish();
         }
@@ -242,11 +249,12 @@ public class CrunchActivity extends AppCompatActivity {
     }
 
     private void markBox(Boolean correctness) {
-        if (currentScoreBox > checkBoxes.length - 1) currentScoreBox = checkBoxes.length - 1;
+        if (currentScoreBox > scoreBoxes.length - 1) currentScoreBox = scoreBoxes.length - 1;
         if (correctness) {
-            checkBoxes[currentScoreBox].setBackgroundColor(Color.GREEN);
+            corrects++;
+            scoreBoxes[currentScoreBox].setBackgroundColor(Color.GREEN);
         } else {
-            checkBoxes[currentScoreBox].setBackgroundColor(Color.RED);
+            scoreBoxes[currentScoreBox].setBackgroundColor(Color.RED);
         }
         highlightAnswer(correctness);
         currentScoreBox++;

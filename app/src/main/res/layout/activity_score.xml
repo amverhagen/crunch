@@ -31,6 +31,7 @@
                 android:weightSum="5">
 
                 <TextView
+                    android:id="@+id/correctView0"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_margin="2dp"
@@ -38,6 +39,7 @@
                     android:background="@color/gray_blue" />
 
                 <TextView
+                    android:id="@+id/correctView1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_margin="2dp"
@@ -45,6 +47,7 @@
                     android:background="@color/gray_blue" />
 
                 <TextView
+                    android:id="@+id/correctView2"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_margin="2dp"
@@ -52,6 +55,7 @@
                     android:background="@color/gray_blue" />
 
                 <TextView
+                    android:id="@+id/correctView3"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_margin="2dp"
@@ -59,6 +63,7 @@
                     android:background="@color/gray_blue" />
 
                 <TextView
+                    android:id="@+id/correctView4"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_margin="2dp"
@@ -74,6 +79,7 @@
                 android:weightSum="5">
 
                 <TextView
+                    android:id="@+id/correctView5"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_margin="2dp"
@@ -81,6 +87,7 @@
                     android:background="@color/gray_blue" />
 
                 <TextView
+                    android:id="@+id/correctView6"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_margin="2dp"
@@ -88,6 +95,7 @@
                     android:background="@color/gray_blue" />
 
                 <TextView
+                    android:id="@+id/correctView7"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_margin="2dp"
@@ -95,6 +103,7 @@
                     android:background="@color/gray_blue" />
 
                 <TextView
+                    android:id="@+id/correctView8"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_margin="2dp"
@@ -102,14 +111,13 @@
                     android:background="@color/gray_blue" />
 
                 <TextView
+                    android:id="@+id/correctView9"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_margin="2dp"
                     android:layout_weight="1"
                     android:background="@color/gray_blue" />
             </LinearLayout>
-
-
         </LinearLayout>
 
         <TextView
@@ -129,6 +137,7 @@
             android:textSize="40sp" />
 
         <TextView
+            android:id="@+id/correctResultView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".5"
@@ -150,6 +159,7 @@
         android:weightSum="2">
 
         <TextView
+            android:id="@+id/timeLeftView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".8"
@@ -174,6 +184,7 @@
             android:textSize="40sp" />
 
         <TextView
+            android:id="@+id/timeResultView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".5"
@@ -194,65 +205,12 @@
         android:layout_height="wrap_content"
         android:gravity="center">
 
-
         <TextView
+            android:id="@+id/finalScoreView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="300"
             android:textSize="100dp" />
     </LinearLayout>
-
-    <!--<TextView-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_margin="5dp"-->
-    <!--android:text="Total Score"-->
-    <!--android:textSize="40sp" />-->
-
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:weightSum="2">-->
-
-    <!--<TextView-->
-    <!--android:layout_width="0dp"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_weight=".6"-->
-    <!--android:gravity="center"-->
-    <!--android:text="XX"-->
-    <!--android:textSize="40sp" />-->
-
-    <!--<TextView-->
-    <!--android:gravity="center"-->
-    <!--android:layout_width="0dp"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_weight=".3"-->
-    <!--android:text="+"-->
-    <!--android:textSize="40sp" />-->
-
-    <!--<TextView-->
-    <!--android:layout_width="0dp"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_weight=".6"-->
-    <!--android:gravity="center"-->
-    <!--android:text="XX"-->
-    <!--android:textSize="40sp" />-->
-
-
-    <!--<TextView-->
-    <!--android:layout_width="0dp"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_weight=".2"-->
-    <!--android:text="="-->
-    <!--android:textSize="40sp" />-->
-
-    <!--<TextView-->
-    <!--android:layout_width="0dp"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_weight=".3"-->
-    <!--android:text="XX"-->
-    <!--android:textSize="40sp" />-->
-    <!--</LinearLayout>-->
-
 </LinearLayout>
