@@ -8,8 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -17,7 +15,10 @@ public class ScoreActivity extends AppCompatActivity {
     private int corrects;
     private int currentCorrectBox;
     private int secondsLeft;
-    private int currentSecond;
+    private int scoreFromCorrects;
+    private int scoreFromTime;
+    private int finalScore;
+    private int scoreTimerLocation;
     private TextView[] correctBoxes;
     private TextView correctResultView;
     private TextView timeLeftView;
@@ -33,17 +34,20 @@ public class ScoreActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score);
         corrects = getIntent().getIntExtra("corrects", 0);
-        System.out.println("Corrects: " + corrects);
-        currentCorrectBox = 0;
         secondsLeft = getIntent().getIntExtra("secondsLeft", 0);
-        System.out.println("Seconds Left: " + secondsLeft);
-        currentSecond = 0;
+        currentCorrectBox = 0;
+        scoreFromCorrects = corrects * 20;
+        scoreFromTime = secondsLeft;
+        finalScore = scoreFromCorrects + scoreFromTime;
+        scoreTimerLocation = 0;
         this.initCorrectBoxes();
         correctResultView = (TextView) this.findViewById(R.id.correctResultView);
         timeLeftView = (TextView) this.findViewById(R.id.timeLeftView);
         timeResultView = (TextView) this.findViewById(R.id.timeResultView);
         finalScoreView = (TextView) this.findViewById(R.id.finalScoreView);
+        System.out.println("Final score is: " + finalScore);
         fillCorrectBoxes();
+        fillScoreViews();
     }
 
     @Override
@@ -101,18 +105,16 @@ public class ScoreActivity extends AppCompatActivity {
     private void fillNextBox() {
         if (currentCorrectBox < correctBoxes.length && currentCorrectBox < corrects) {
             correctBoxes[currentCorrectBox].setBackgroundColor(getResources().getColor(R.color.green));
+            currentCorrectBox++;
         } else {
             cancelCorrectsTimerAndTask();
         }
-        currentCorrectBox++;
     }
 
-    private void fillTimeLeftView() {
-        if (corrects > 0) {
-            resetTimeLeftTimer();
-            resetTimeLeftTask();
-            timeLeftTimer.scheduleAtFixedRate(timeLeftTask, 500, 50);
-        }
+    private void fillScoreViews() {
+        resetTimeLeftTimer();
+        resetTimeLeftTask();
+        timeLeftTimer.scheduleAtFixedRate(timeLeftTask, 500, 2);
     }
 
     private void resetTimeLeftTimer() {
@@ -125,9 +127,41 @@ public class ScoreActivity extends AppCompatActivity {
         timeLeftTask = new TimerTask() {
             @Override
             public void run() {
-                this.cancel();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        incrementScoreViews();
+                    }
+                });
             }
         };
+    }
+
+    private void incrementScoreViews() {
+        scoreTimerLocation++;
+        boolean finished = true;
+        if (scoreTimerLocation <= scoreFromCorrects) {
+            finished = false;
+            correctResultView.setText(scoreTimerLocation + "");
+        }
+        if (scoreTimerLocation <= scoreFromTime) {
+            finished = false;
+            timeResultView.setText(scoreTimerLocation + "");
+        }
+
+        if (scoreTimerLocation <= secondsLeft) {
+            finished = false;
+            timeLeftView.setText(scoreTimerLocation + "");
+        }
+
+        if (scoreTimerLocation <= finalScore) {
+            finished = false;
+            finalScoreView.setText(scoreTimerLocation + "");
+        }
+
+        if (finished) {
+            cancelTimeLeftTimerAndTask();
+        }
     }
 
     private void cancelCorrectsTimerAndTask() {
@@ -149,18 +183,15 @@ public class ScoreActivity extends AppCompatActivity {
         this.finish();
         Intent intent = new Intent(this, CrunchActivity.class);
         startActivity(intent);
-        System.out.println("Play Again Clicked");
     }
 
     public void mainMenu(View view) {
-        System.out.println("Main Menu Clicked");
         this.finish();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        System.out.println("Called ScoreActivity onStop");
         endAllTimersAndTasks();
         this.finish();
     }

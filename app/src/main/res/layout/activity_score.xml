@@ -20,7 +20,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight=".8"
+            android:layout_weight=".5"
             android:orientation="vertical">
 
             <LinearLayout
@@ -123,10 +123,10 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight=".5"
+            android:layout_weight=".4"
             android:gravity="center"
-            android:text=" x10"
-            android:textSize="40sp" />
+            android:text=" x20"
+            android:textSize="30sp" />
 
         <TextView
             android:layout_width="0dp"
@@ -134,15 +134,15 @@
             android:layout_weight=".2"
             android:gravity="center"
             android:text="="
-            android:textSize="40sp" />
+            android:textSize="30sp" />
 
         <TextView
             android:id="@+id/correctResultView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight=".5"
+            android:layout_weight=".9"
             android:gravity="center"
-            android:text="XX"
+            android:text="0"
             android:textSize="40sp" />
     </LinearLayout>
 
@@ -162,18 +162,18 @@
             android:id="@+id/timeLeftView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight=".8"
+            android:layout_weight=".5"
             android:gravity="center"
-            android:text="100"
+            android:text="0"
             android:textSize="40sp" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight=".5"
+            android:layout_weight=".4"
             android:gravity="center"
-            android:text=" x2"
-            android:textSize="40sp" />
+            android:text=" x1"
+            android:textSize="30sp" />
 
         <TextView
             android:layout_width="0dp"
@@ -181,15 +181,15 @@
             android:layout_weight=".2"
             android:gravity="center"
             android:text="="
-            android:textSize="40sp" />
+            android:textSize="30sp" />
 
         <TextView
             android:id="@+id/timeResultView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight=".5"
+            android:layout_weight=".9"
             android:gravity="center"
-            android:text="XX"
+            android:text="0"
             android:textSize="40sp" />
     </LinearLayout>
 
@@ -210,7 +210,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="300"
+            android:text="0"
             android:textSize="100dp" />
     </LinearLayout>
 
