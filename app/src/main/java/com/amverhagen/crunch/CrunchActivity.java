@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.provider.CalendarContract;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,7 +11,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.amverhagen.problem.Equation;
-import com.amverhagen.problem.EquationWrapper;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -31,7 +29,6 @@ public class CrunchActivity extends AppCompatActivity {
     private TimerTask secondPassedTask;
     private TimerTask displayAnswerTask;
     private ArrayList<Equation> equations;
-    private EquationWrapper wrapper;
     private TextView equationPanel;
     private Panel[] panels;
     private Panel selectedPanel;
@@ -43,8 +40,7 @@ public class CrunchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crunch);
-        wrapper = (EquationWrapper) getIntent().getSerializableExtra("equations");
-        equations = wrapper.getEquations();
+        this.createEquationList();
         active = false;
         this.setSounds();
         this.initTimeBoxes();
@@ -67,8 +63,15 @@ public class CrunchActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
         return super.onOptionsItemSelected(item);
+    }
+
+    private void createEquationList() {
+        equations = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            Equation temp = new Equation();
+            equations.add(temp);
+        }
     }
 
     private void setSounds() {
@@ -217,12 +220,12 @@ public class CrunchActivity extends AppCompatActivity {
 
     public void panelTouched(View view) {
         if (active) {
-            for (int i = 0; i < panels.length; i++) {
-                if (panels[i].getTextView() == view) {
-                    if (panels[i] == selectedPanel) {
-                        setAnswer(panels[i].getCorrectness());
+            for (Panel p : panels) {
+                if (p.getTextView() == view) {
+                    if (p == selectedPanel) {
+                        setAnswer(p.getCorrectness());
                     } else {
-                        setSelectedPanel(panels[i]);
+                        setSelectedPanel(p);
                     }
                 }
             }
@@ -239,8 +242,8 @@ public class CrunchActivity extends AppCompatActivity {
 
     private void resetSelectedPanel() {
         selectedPanel = null;
-        for (int i = 0; i < panels.length; i++) {
-            panels[i].getTextView().setBackgroundResource(R.drawable.border);
+        for (Panel p : panels) {
+            p.getTextView().setBackgroundResource(R.drawable.border);
         }
     }
 

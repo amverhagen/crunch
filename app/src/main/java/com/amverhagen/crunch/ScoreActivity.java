@@ -1,5 +1,6 @@
 package com.amverhagen.crunch;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -53,7 +54,6 @@ public class ScoreActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
         return super.onOptionsItemSelected(item);
     }
 
@@ -146,16 +146,21 @@ public class ScoreActivity extends AppCompatActivity {
     }
 
     public void playAgain(View view) {
+        this.finish();
+        Intent intent = new Intent(this, CrunchActivity.class);
+        startActivity(intent);
         System.out.println("Play Again Clicked");
     }
 
     public void mainMenu(View view) {
         System.out.println("Main Menu Clicked");
+        this.finish();
     }
 
     @Override
     public void onStop() {
         super.onStop();
+        System.out.println("Called ScoreActivity onStop");
         endAllTimersAndTasks();
         this.finish();
     }
