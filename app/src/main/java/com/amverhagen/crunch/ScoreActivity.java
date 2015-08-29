@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -13,7 +14,9 @@ import java.util.TimerTask;
 
 public class ScoreActivity extends AppCompatActivity {
     private int corrects;
+    private int currentCorrectBox;
     private int secondsLeft;
+    private int currentSecond;
     private TextView[] correctBoxes;
     private TextView correctResultView;
     private TextView timeLeftView;
@@ -29,30 +32,28 @@ public class ScoreActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score);
         corrects = getIntent().getIntExtra("corrects", 0);
+        System.out.println("Corrects: " + corrects);
+        currentCorrectBox = 0;
         secondsLeft = getIntent().getIntExtra("secondsLeft", 0);
+        System.out.println("Seconds Left: " + secondsLeft);
+        currentSecond = 0;
         this.initCorrectBoxes();
         correctResultView = (TextView) this.findViewById(R.id.correctResultView);
         timeLeftView = (TextView) this.findViewById(R.id.timeLeftView);
         timeResultView = (TextView) this.findViewById(R.id.timeResultView);
         finalScoreView = (TextView) this.findViewById(R.id.finalScoreView);
         fillCorrectBoxes();
-        fillTimeLeftView();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_score, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -72,8 +73,8 @@ public class ScoreActivity extends AppCompatActivity {
 
     private void fillCorrectBoxes() {
         resetCorrectsTimer();
-        setCorrectsTask();
-        correctsTimer.scheduleAtFixedRate(correctsTask, 0, 500);
+        resetCorrectsTask();
+        correctsTimer.scheduleAtFixedRate(correctsTask, 1000, 50);
     }
 
     private void resetCorrectsTimer() {
@@ -81,20 +82,37 @@ public class ScoreActivity extends AppCompatActivity {
         correctsTimer = new Timer();
     }
 
-    private void setCorrectsTask() {
+    private void resetCorrectsTask() {
         if (correctsTask != null) correctsTask.cancel();
         correctsTask = new TimerTask() {
             @Override
             public void run() {
-                this.cancel();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        System.out.println("Ran Corrects Task");
+                        fillNextBox();
+                    }
+                });
             }
         };
     }
 
+    private void fillNextBox() {
+        if (currentCorrectBox < correctBoxes.length && currentCorrectBox < corrects) {
+            correctBoxes[currentCorrectBox].setBackgroundColor(getResources().getColor(R.color.green));
+        } else {
+            cancelCorrectsTimerAndTask();
+        }
+        currentCorrectBox++;
+    }
+
     private void fillTimeLeftView() {
-        resetTimeLeftTimer();
-        setTimeLeftTask();
-        timeLeftTimer.scheduleAtFixedRate(timeLeftTask, 0, 500);
+        if (corrects > 0) {
+            resetTimeLeftTimer();
+            resetTimeLeftTask();
+            timeLeftTimer.scheduleAtFixedRate(timeLeftTask, 500, 50);
+        }
     }
 
     private void resetTimeLeftTimer() {
@@ -102,7 +120,7 @@ public class ScoreActivity extends AppCompatActivity {
         timeLeftTimer = new Timer();
     }
 
-    private void setTimeLeftTask() {
+    private void resetTimeLeftTask() {
         if (timeLeftTask != null) timeLeftTask.cancel();
         timeLeftTask = new TimerTask() {
             @Override
@@ -110,5 +128,35 @@ public class ScoreActivity extends AppCompatActivity {
                 this.cancel();
             }
         };
+    }
+
+    private void cancelCorrectsTimerAndTask() {
+        if (correctsTimer != null) correctsTimer.cancel();
+        if (correctsTask != null) correctsTask.cancel();
+    }
+
+    private void cancelTimeLeftTimerAndTask() {
+        if (timeLeftTimer != null) timeLeftTimer.cancel();
+        if (timeLeftTask != null) timeLeftTask.cancel();
+    }
+
+    private void endAllTimersAndTasks() {
+        cancelCorrectsTimerAndTask();
+        cancelTimeLeftTimerAndTask();
+    }
+
+    public void playAgain(View view) {
+        System.out.println("Play Again Clicked");
+    }
+
+    public void mainMenu(View view) {
+        System.out.println("Main Menu Clicked");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        endAllTimersAndTasks();
+        this.finish();
     }
 }
