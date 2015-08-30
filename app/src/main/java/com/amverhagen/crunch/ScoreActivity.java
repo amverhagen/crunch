@@ -47,7 +47,6 @@ public class ScoreActivity extends AppCompatActivity {
         finalScoreView = (TextView) this.findViewById(R.id.finalScoreView);
         System.out.println("Final score is: " + finalScore);
         fillCorrectBoxes();
-        fillScoreViews();
     }
 
     @Override
@@ -78,7 +77,7 @@ public class ScoreActivity extends AppCompatActivity {
     private void fillCorrectBoxes() {
         resetCorrectsTimer();
         resetCorrectsTask();
-        correctsTimer.scheduleAtFixedRate(correctsTask, 1000, 50);
+        correctsTimer.scheduleAtFixedRate(correctsTask, 200, 50);
     }
 
     private void resetCorrectsTimer() {
@@ -94,7 +93,6 @@ public class ScoreActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        System.out.println("Ran Corrects Task");
                         fillNextBox();
                     }
                 });
@@ -108,6 +106,7 @@ public class ScoreActivity extends AppCompatActivity {
             currentCorrectBox++;
         } else {
             cancelCorrectsTimerAndTask();
+            fillScoreViews();
         }
     }
 
