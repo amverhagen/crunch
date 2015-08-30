@@ -9,9 +9,9 @@ import java.util.ArrayList;
  * Created by Andrew on 8/15/2015.
  */
 public class Options {
-    private static boolean subtraction = false;
-    private static boolean multiplication = false;
-    private static boolean division = false;
+    private static boolean subtraction = true;
+    private static boolean multiplication = true;
+    private static boolean division = true;
 
 
     public static void toggleSub() {

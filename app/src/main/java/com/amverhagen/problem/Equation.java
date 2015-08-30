@@ -2,22 +2,20 @@ package com.amverhagen.problem;
 
 import com.amverhagen.options.Options;
 
-import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Random;
 
-/**
- * Created by Andrew on 8/15/2015.
- */
-public class Equation implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class Equation {
     private EquationType type;
     private int argOne;
     private int argTwo;
     private double correctAnswer;
     private double[] incorrectAnswers;
     private int currentIncorrectIndex;
+    private Random rand;
 
     public Equation() {
+        this.rand = new Random();
         this.type = setType();
         this.setArgs(this.type);
         this.correctAnswer = this.generateCorrectAnswer(this.type, this.argOne, this.argTwo);
@@ -32,12 +30,18 @@ public class Equation implements Serializable {
     }
 
     private void setArgs(EquationType eType) {
+        rand = new Random();
         if (eType == EquationType.ADDITION || eType == EquationType.SUBTRACTION) {
-            this.argOne = (int) Math.ceil(Math.random() * 99) + 1;
-            this.argTwo = (int) Math.ceil(Math.random() * 99) + 1;
-        } else if (eType == EquationType.MULTIPLICATION || eType == EquationType.DIVISION) {
-            this.argOne = (int) Math.ceil(Math.random() * 14) + 1;
-            this.argTwo = (int) Math.ceil(Math.random() * 14) + 1;
+            this.argOne = rand.nextInt(101);
+            this.argTwo = rand.nextInt(101);
+        } else if (eType == EquationType.MULTIPLICATION) {
+            this.argOne = rand.nextInt(16);
+            this.argTwo = rand.nextInt(16);
+            if (rand.nextBoolean()) this.argTwo *= -1;
+        } else if (eType == EquationType.DIVISION) {
+            this.argOne = rand.nextInt(101);
+            this.argTwo = rand.nextInt(19) + 1;
+            if (rand.nextBoolean()) this.argTwo *= -1;
         }
     }
 
@@ -62,13 +66,13 @@ public class Equation implements Serializable {
             int sign = (Math.random() < 0.5) ? -1 : 1;
             int diff = (int) (Math.ceil(Math.random() * 9 + 1) * sign);
             wrongAnswers[i] = correct + diff;
+            wrongAnswers[i] = Math.round(wrongAnswers[i] * 100) / 100d;
         }
         return wrongAnswers;
     }
 
     public String getEquationSyntax() {
-        String syntax = argOne + " " + type.getOperation() + " " + argTwo;
-        return syntax;
+        return argOne + " " + type.getOperation() + " " + argTwo;
     }
 
     public String getCorrectAnswer() {
@@ -77,17 +81,17 @@ public class Equation implements Serializable {
 
     public String getIncorrectAnswer() {
         String value;
-        if (currentIncorrectIndex >= incorrectAnswers.length) {
-            value = Double.toString(incorrectAnswers[incorrectAnswers.length - 1]);
-        } else {
-            value = Double.toString(incorrectAnswers[currentIncorrectIndex]);
-            currentIncorrectIndex++;
-        }
+        if (currentIncorrectIndex >= incorrectAnswers.length) currentIncorrectIndex = 0;
+        value = Double.toString(incorrectAnswers[currentIncorrectIndex]);
+        currentIncorrectIndex++;
         return value;
     }
 
     public String toString() {
-        return new String("Arg1 is: " + argOne + ". Arg2 is: " + argTwo + ". Type is: " + type + " Answer is: " + correctAnswer
-                + ". Incorrects are: " + incorrectAnswers[0] + " " + incorrectAnswers[1] + " " + incorrectAnswers[2]);
+        return "Equation: " + this.getEquationSyntax() + "\n" +
+                "Correct Answer: " + this.getCorrectAnswer() + "\n" +
+                "Incorrect Answer 1: " + this.getIncorrectAnswer() + "\n" +
+                "Incorrect Answer 2: " + this.getIncorrectAnswer() + "\n" +
+                "Incorrect Answer 3: " + this.getIncorrectAnswer() + "\n";
     }
 }
