@@ -1,14 +1,10 @@
 package com.amverhagen.crunch;
 
-import com.amverhagen.options.Options;
 import com.amverhagen.problem.Equation;
 
-import java.util.ArrayList;
 import java.util.Random;
 
-/**
- * Created by Andrew on 8/16/2015.
- */
+
 public class TestEquation {
 
 

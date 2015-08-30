@@ -70,7 +70,7 @@ public class Equation {
                 diff = (rand.nextInt(10) + 1) * sign;
                 wrongAnswers[i] = correct + diff;
             } else if (eType == EquationType.DIVISION) {
-                double divDiff = 0;
+                double divDiff;
                 if (Math.abs(Math.round(correct) - correct) < .0001d) {
                     divDiff = (rand.nextInt(5) + 1) * sign;
                 } else if (Math.abs((Math.round(correct * 10) / 10d) - correct) < .0001d) {

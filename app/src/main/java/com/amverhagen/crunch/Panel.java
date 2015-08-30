@@ -2,9 +2,7 @@ package com.amverhagen.crunch;
 
 import android.widget.TextView;
 
-/**
- * Created by Andrew on 8/18/2015.
- */
+
 public class Panel {
     private boolean correct;
     private TextView panel;

@@ -2,12 +2,8 @@ package com.amverhagen.options;
 
 import com.amverhagen.problem.EquationType;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
-/**
- * Created by Andrew on 8/15/2015.
- */
 public class Options {
     private static boolean subtraction = true;
     private static boolean multiplication = true;
@@ -39,7 +35,7 @@ public class Options {
     }
 
     public static ArrayList<EquationType> getEquationTypeList() {
-        ArrayList<EquationType> types = new ArrayList<EquationType>();
+        ArrayList<EquationType> types = new ArrayList<>();
         types.add(EquationType.ADDITION);
         if (subtraction) types.add(EquationType.SUBTRACTION);
         if (multiplication) types.add(EquationType.MULTIPLICATION);
@@ -48,6 +44,6 @@ public class Options {
     }
 
     public String toString() {
-        return new String("Sub is: " + subtraction + ". Mult is: " + multiplication + ". Div is: " + division);
+        return "Sub is: " + subtraction + ". Mult is: " + multiplication + ". Div is: " + division;
     }
 }

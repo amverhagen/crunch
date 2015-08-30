@@ -1,8 +1,5 @@
 package com.amverhagen.problem;
 
-/**
- * Created by Andrew on 8/15/2015.
- */
 public enum EquationType {
     ADDITION("+"),
     SUBTRACTION("-"),
