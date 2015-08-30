@@ -40,9 +40,9 @@ public class CrunchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crunch);
+        this.setSounds();
         this.createEquationList();
         active = false;
-        this.setSounds();
         this.initTimeBoxes();
         this.initScoreBoxes();
         secondsLeft = timeBoxes.length * scoreBoxes.length;

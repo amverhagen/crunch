@@ -57,7 +57,6 @@ public class Equation {
             if (a2 == 0) return 0;
             answer = a1 / a2;
         }
-        System.out.println("Correct before incorrects: " + Math.round(answer * 100) / 100d);
         return Math.round(answer * 100) / 100d;
     }
 

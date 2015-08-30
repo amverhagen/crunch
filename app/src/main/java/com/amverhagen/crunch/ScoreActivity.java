@@ -77,7 +77,7 @@ public class ScoreActivity extends AppCompatActivity {
     private void fillCorrectBoxes() {
         resetCorrectsTimer();
         resetCorrectsTask();
-        correctsTimer.scheduleAtFixedRate(correctsTask, 200, 50);
+        correctsTimer.scheduleAtFixedRate(correctsTask, 300, 50);
     }
 
     private void resetCorrectsTimer() {
