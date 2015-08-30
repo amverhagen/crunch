@@ -19,7 +19,7 @@ public class Equation {
         this.type = setType();
         this.setArgs(this.type);
         this.correctAnswer = this.generateCorrectAnswer(this.type, this.argOne, this.argTwo);
-        this.incorrectAnswers = this.generateIncorrectAnswers(this.type, this.correctAnswer);
+        this.incorrectAnswers = this.generateIncorrectAnswers(this.type, this.correctAnswer, this.argOne, this.argTwo);
         this.currentIncorrectIndex = 0;
     }
 
@@ -57,16 +57,42 @@ public class Equation {
             if (a2 == 0) return 0;
             answer = a1 / a2;
         }
+        System.out.println("Correct before incorrects: " + Math.round(answer * 100) / 100d);
         return Math.round(answer * 100) / 100d;
     }
 
-    private double[] generateIncorrectAnswers(EquationType eType, double correct) {
+    private double[] generateIncorrectAnswers(EquationType eType, double correct, int a1, int a2) {
+        rand = new Random();
         double[] wrongAnswers = new double[3];
         for (int i = 0; i < wrongAnswers.length; i++) {
-            int sign = (Math.random() < 0.5) ? -1 : 1;
-            int diff = (int) (Math.ceil(Math.random() * 9 + 1) * sign);
-            wrongAnswers[i] = correct + diff;
-            wrongAnswers[i] = Math.round(wrongAnswers[i] * 100) / 100d;
+            int sign = (rand.nextBoolean()) ? -1 : 1;
+            int diff;
+            if (eType == EquationType.ADDITION || eType == EquationType.SUBTRACTION) {
+                diff = (rand.nextInt(10) + 1) * sign;
+                wrongAnswers[i] = correct + diff;
+            } else if (eType == EquationType.DIVISION) {
+                double divDiff = 0;
+                if (Math.abs(Math.round(correct) - correct) < .0001d) {
+                    divDiff = (rand.nextInt(5) + 1) * sign;
+                } else if (Math.abs((Math.round(correct * 10) / 10d) - correct) < .0001d) {
+                    divDiff = (((rand.nextInt(50) + 1) / 10d) * sign);
+                } else if (Math.abs((Math.round(correct * 100) / 100d) - correct) < .0001d) {
+                    divDiff = (((rand.nextInt(500) + 1) / 100d) * sign);
+                } else if ((Math.abs(Math.round(correct * 1000) / 1000d) - correct) < .0001d) {
+                    divDiff = (((rand.nextInt(5000) + 1) / 1000d) * sign);
+                } else {
+                    divDiff = rand.nextInt(5) + 1;
+                }
+                wrongAnswers[i] = correct + divDiff;
+            } else if (eType == EquationType.MULTIPLICATION) {
+                if (a1 % 2 == 0 && a2 % 2 == 0) {
+                    diff = (rand.nextInt(5) + 1) * sign * 2;
+                } else {
+                    diff = (rand.nextInt(10) + 1) * sign;
+                }
+                wrongAnswers[i] = correct + diff;
+            }
+            wrongAnswers[i] = Math.round(wrongAnswers[i] * 1000) / 1000d;
         }
         return wrongAnswers;
     }
